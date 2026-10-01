@@ -9,10 +9,7 @@ import br.com.alura.screenmatch.service.ConverteDados;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Principal {
@@ -67,6 +64,18 @@ public class Principal {
 
         episodios.forEach(System.out::println);
 
+        System.out.println("Digite um titulo do trecho: ");
+        String trechoTitulo = sc.nextLine();
+        Optional<Episodio> episodioBuscado = episodios.stream()
+                        .filter(e -> e.getTitulo().toUpperCase().contains(trechoTitulo.toUpperCase()))
+                        .findFirst();
+                if (episodioBuscado.isPresent()) {
+                    System.out.println("Episodio encontrado! ");
+                    System.out.println("Temporada: " + episodioBuscado.get().getTemporada());
+                } else {
+                    System.out.println("Episodio não encontrado!");
+                }
+
         System.out.println("Qual ano você deseja ver os episódios? ");
         int ano = sc.nextInt();
         sc.nextLine();
@@ -81,5 +90,17 @@ public class Principal {
                                 "Episodio " + e.getNumeroEpisodio() +
                                 "Data Lançamento " + e.getDataLancamento()
                 ));
+
+        Map<Integer, Double> avaliacaoPorTemporada = episodios.stream()
+                .collect(Collectors.groupingBy(Episodio::getTemporada,
+                        Collectors.averagingDouble(Episodio::getAvaliacao)));
+        System.out.println(avaliacaoPorTemporada);
+
+        DoubleSummaryStatistics est = episodios.stream()
+                .filter(e -> e.getAvaliacao() > 0.0)
+                .collect(Collectors.summarizingDouble(Episodio::getAvaliacao));
+        System.out.println("avaliacao: " + est);
+
+
     }
 }
