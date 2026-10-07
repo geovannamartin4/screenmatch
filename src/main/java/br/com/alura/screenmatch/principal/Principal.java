@@ -21,6 +21,16 @@ public class Principal {
     private ConverteDados conversor = new ConverteDados();
 
     public void exibeMenu() {
+
+        System.out.println("""
+                1- Buscar séries
+                2- Buscar episódios
+                3- Listar séries buscadas
+                
+                0- Sair 
+                """);
+        int opcao = sc.nextInt();
+
         System.out.println("Digite o nome da série: ");
         String nomeSerie = sc.nextLine();
 
@@ -100,6 +110,7 @@ public class Principal {
                 .filter(e -> e.getAvaliacao() > 0.0)
                 .collect(Collectors.summarizingDouble(Episodio::getAvaliacao));
         System.out.println("avaliacao: " + est);
+
 
 
     }
