@@ -14,11 +14,11 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
     List<Serie> findByAtoresContainingIgnoreCaseAndAvaliacaoGreaterThanEqual(String nomeAtor, Double avaliacao);
     List<Serie> findTop5ByOrderByAvaliacaoDesc();
     List<Serie> findByGenero(Categoria categoria);
-    @Query("SELECT s FROM Serie s WHERE s.totalTemporada <= :totalTemporada AND s.avaliacao >= :avaliacao")
+    @Query("SELECT s FROM Serie s WHERE s.totalTemporadas <= :totalTemporada AND s.avaliacao >= :avaliacao")
     List<Serie> seriePorTemporadaAvaliacao(Integer totalTemporada, Double avaliacao);
     @Query("SELECT e FROM Serie s JOIN s.episodios e WHERE e.titulo ILIKE %:trechoEpisodio%")
     List<Episodio> episodiosPorTrecho(String trechoEpisodio);
-    @Query("SELECT e FROM Serie s JOIN s.episodios WHERE s = :serie ORDER BY e.avaliacao DESC LIMIT 5")
+    @Query("SELECT e FROM Serie s JOIN s.episodios e WHERE s = :serie ORDER BY e.avaliacao DESC")
     List<Episodio> top5EpisodiosPorSerie(Serie serie);
     @Query("SELECT e FROM Serie s JOIN s.episodios e WHERE s.titulo = :serie AND YEAR(e.dataLancamento) >= :anoLancamento ")
     List<Episodio> buscaEpisodioPorDataDeLancamento(int anoLancamento, Serie serie);
